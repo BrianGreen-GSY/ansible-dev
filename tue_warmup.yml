@@ -1,0 +1,22 @@
+---
+- name: Playbook - Tues
+  hosts: renamed,!taz  
+  connection: ssh
+  gather_facts: false   # defaelt is yes
+
+  vars:
+          usernames:
+          - Bingo
+
+  tasks:
+    - name: Ensure group funktown" exists
+      ansible.builtin.group:
+         name: funkytown
+         state: present
+
+    - name: Create a new user
+      become: yes
+      loop: "{{ usernames }}"
+      ansible.builtin.user:
+        name: "{{ item }}"
+        group: funktown
